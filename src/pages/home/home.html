@@ -17,9 +17,14 @@
   <br/>
 
   <ion-list>
-    <button ion-item *ngFor="let item of carrinhos" (click)="selecionarLista(item.id)">
-      {{ item.id }} - {{ item.data_cadastro | date: 'dd/MM/yyyy - HH:mm' }}
-    </button>
+    <ion-item-sliding *ngFor="let item of carrinhos">
+      <button ion-item (click)="selecionarLista(item.id)">
+        {{ item.id }} - {{ item.data_cadastro | date: 'dd/MM/yyyy - HH:mm' }}
+      </button>
+      <ion-item-options>
+        <button ion-button color="danger" (click)="removeCarrinho(item.id)">Apagar</button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
   <button ion-button (click)=adicionarCarrinho()>Adicionar carrinho de compras</button>

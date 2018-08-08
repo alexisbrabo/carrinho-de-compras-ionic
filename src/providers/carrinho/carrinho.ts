@@ -26,6 +26,10 @@ export class CarrinhoProvider {
     return this.http.post<any>(`${this.api}/listacompras`, carrinho);
   }
 
+  removerCarrinho(id: any): Observable<any> {
+    return this.http.delete<any>(`${this.api}/listacompras/${id}`);
+  }
+
   adicionarProduto(produto: Produto): Observable<any> {
     return this.http.post<any>(`${this.api}/produto`, produto);
   }
