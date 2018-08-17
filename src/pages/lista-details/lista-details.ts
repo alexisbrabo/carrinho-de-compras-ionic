@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { CarrinhoProvider } from '../../providers/carrinho/carrinho';
 import { Produto } from '../../models/produto';
 
@@ -22,14 +22,14 @@ export class ListaDetailsPage {
   produto: Produto;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private carrinhoProvider: CarrinhoProvider,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController, private toastCtrl: ToastController) {
     this.carrinhoId = navParams.get('carrinhoId');
   }
 
   addProduto() {
     let alert = this.alertCtrl.create({
       title: 'Produto',
-      message: 'Digite as informações do produto abaixo',
+      message: 'Cadastre as informações do produto abaixo',
       inputs: [
         {
           name: 'nome',
@@ -52,6 +52,10 @@ export class ListaDetailsPage {
           text: 'Salvar',
           handler: data => {
             this.produto = new Produto();
+            if (data.nome == "") {
+              this.erroCadastro();
+              return;
+            }
             this.produto.valor = data.valor;
             this.produto.nome = data.nome;
             this.produto.listacompra_id = this.carrinhoId;
@@ -66,6 +70,63 @@ export class ListaDetailsPage {
     });
 
     alert.present();
+  }
+
+  updateProduto(item: Produto) {
+    let alert = this.alertCtrl.create({
+      title: 'Produto',
+      message: 'Atualize as informações do produto abaixo',
+      inputs: [
+        {
+          name: 'nome',
+          placeholder: 'Nome',
+          value: item.nome
+        },
+        {
+          name: 'valor',
+          placeholder: 'Valor',
+          type: 'Number',
+          value: !item.valor ? "" : item.valor.toString()
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            console.log('Cancel clicked al');
+          }
+        },
+        {
+          text: 'Atualizar',
+          handler: data => {
+            if (data.nome == "") {
+              this.erroCadastro();
+              return;
+            }
+            item.valor = data.valor;
+            item.nome = data.nome;
+            item.listacompra_id = this.carrinhoId;
+            this.carrinhoProvider.atualizarProduto(item.id).subscribe(response => {
+              this.ionViewDidLoad();
+            })
+
+            console.log('autalização completa');
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
+  erroCadastro() {
+    let toast = this.toastCtrl.create({
+      message: 'O nome do produto precisa ser preenchido!',
+      duration: 3000,
+      position: 'top'
+    });
+
+    toast.present();
   }
 
   ionViewDidLoad() {

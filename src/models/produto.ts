@@ -1,5 +1,6 @@
 export class Produto {
-    nome: String;
+    id: Number;
+    nome: string;
     valor: Number;
     listacompra_id: Number;
   }

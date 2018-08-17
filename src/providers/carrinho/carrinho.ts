@@ -34,6 +34,11 @@ export class CarrinhoProvider {
     return this.http.post<any>(`${this.api}/produto`, produto);
   }
 
+  atualizarProduto(id: Number): Observable<any> {
+    console.log(id);
+    return this.http.put<any>(`${this.api}/produto`, id);
+  }
+
   listarProdutos(id: any): Observable<any> {
     return this.http.get<any>(`${this.api}/produto/carrinho/${id}`);
   }
