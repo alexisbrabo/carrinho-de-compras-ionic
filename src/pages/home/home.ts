@@ -29,7 +29,7 @@ export class HomePage {
 
   removeCarrinho(carrinhoId) {
     const confirm = this.alertCtrl.create({
-      title: 'Exclusão carrinho',
+      title: 'Exclusão Carrinho',
       message: 'Deseja mesmo deletar este carrinho de compras?',
       buttons: [
         {

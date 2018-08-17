@@ -16,9 +16,14 @@
 <ion-content padding>
 
   <ion-list>
-    <button ion-item *ngFor="let item of produtos" (click)="updateProduto(item)">
-      {{ item.nome }}
-    </button>
+    <ion-item-sliding *ngFor="let item of produtos">
+      <button ion-item (click)="updateProduto(item)">
+        {{ item.nome }}
+      </button>
+      <ion-item-options>
+        <button ion-button color="danger" (click)="removeProduto(item.id)">Apagar</button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
   <button ion-button (click)="addProduto()">Adicionar produto</button>

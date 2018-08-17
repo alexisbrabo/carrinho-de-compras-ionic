@@ -26,6 +26,10 @@ export class ListaDetailsPage {
     this.carrinhoId = navParams.get('carrinhoId');
   }
 
+  ionViewDidLoad() {
+    this.carrinhoProvider.listarProdutos(this.carrinhoId).subscribe(response => this.produtos = response);
+  }
+
   addProduto() {
     let alert = this.alertCtrl.create({
       title: 'Produto',
@@ -106,11 +110,10 @@ export class ListaDetailsPage {
             item.valor = data.valor;
             item.nome = data.nome;
             item.listacompra_id = this.carrinhoId;
-            this.carrinhoProvider.atualizarProduto(item.id).subscribe(response => {
+            this.carrinhoProvider.atualizarProduto(item.id, item).subscribe(response => {
               this.ionViewDidLoad();
             })
 
-            console.log('autalização completa');
           }
         }
       ]
@@ -129,8 +132,26 @@ export class ListaDetailsPage {
     toast.present();
   }
 
-  ionViewDidLoad() {
-    this.carrinhoProvider.listarProdutos(this.carrinhoId).subscribe(response => this.produtos = response);
+  removeProduto(idProduto: Number) {
+    const confirm = this.alertCtrl.create({
+      title: 'Exclusão Produto',
+      message: 'Deseja mesmo deletar este produto?',
+      buttons: [
+        {
+          text: 'Não',
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.carrinhoProvider.removerProduto(idProduto).subscribe(response => {
+
+              this.ionViewDidLoad();
+            })
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }
