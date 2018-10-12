@@ -12,7 +12,7 @@ import { Produto } from '../../models/produto';
 @Injectable()
 export class CarrinhoProvider {
 
-  private api = "http://192.168.10.52:5000";
+  private api = "http://127.0.0.1:5000";
 
   constructor(public http: HttpClient) {
     console.log('Hello CarrinhoProvider Provider');
